@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-15T01:22:14.276007+00:00",
+  "timestamp": "2024-10-17T01:21:30.812172+00:00",
   "repo": "DavidSchinazi/draft-schinazi-httpbis-wrap-up",
   "labels": [
     {
@@ -49,6 +49,242 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
-  "pulls": []
+  "issues": [
+    {
+      "number": 3,
+      "id": "I_kwDOMLlhCM6aZimI",
+      "title": "Using H3_DATAGRAM_ERROR is weird",
+      "url": "https://github.com/DavidSchinazi/draft-schinazi-httpbis-wrap-up/issues/3",
+      "state": "CLOSED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> Endpoints that abort the request stream due to an unexpected or malformed WRAP_UP capsule received over HTTP/3 SHOULD use the H3_DATAGRAM_ERROR error code when aborting the stream.\r\n\r\nI realize we defined that error code but it especially sticks out if we consider WRAP_UP could be used for a capsule protocol stream that doesn't even use datagrams. Ok ok, https://www.rfc-editor.org/rfc/rfc9297#section-5.2 says \r\n\r\n> Description: Datagram or Capsule Protocol parse error\r\n\r\nBut I can see people getting quite confused by this name, if for example we had a [connect-tcp stream](https://httpwg.org/http-extensions/draft-ietf-httpbis-connect-tcp.html#name-use-of-the-capsule-protocol) that observed two WRAP_UPS and wanted to reset\r\n\r\nI think the answer is probably to define generic [H2_|H3]_CAPSULE_ERROR in https://LPardue.github.io/draft-pardue-capsule-ext-guidance/draft-pardue-capsule-ext-guidance.html. So jsut using this issue to highlight something that sticks out that might get addressed elsewhere.",
+      "createdAt": "2024-10-16T02:09:12Z",
+      "updatedAt": "2024-10-16T17:57:38Z",
+      "closedAt": "2024-10-16T17:57:38Z",
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "Yeah it's kinda. I'll update WRAP_UP to match what we did for [connect-ip](https://www.rfc-editor.org/rfc/rfc9484#section-4.7.2-8):\r\n\r\n> If any of the capsule fields are malformed upon reception, the receiver of the capsule MUST follow the error-handling procedure defined in [Section 3.3](https://rfc-editor.org/rfc/rfc9297#section-3.3) of [[HTTP-DGRAM](https://www.rfc-editor.org/rfc/rfc9484#RFC9297)].\r\n\r\nTotally agree that we should fix this in draft-pardue-capsule-ext-guidance. I filed https://github.com/LPardue/draft-pardue-capsule-ext-guidance/issues/1",
+          "createdAt": "2024-10-16T17:20:13Z",
+          "updatedAt": "2024-10-16T17:23:52Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOMLlhCM5-vw1L",
+      "title": "Add Lucas",
+      "url": "https://github.com/DavidSchinazi/draft-schinazi-httpbis-wrap-up/pull/1",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-15T23:55:18Z",
+      "updatedAt": "2024-10-16T01:10:51Z",
+      "baseRepository": "DavidSchinazi/draft-schinazi-httpbis-wrap-up",
+      "baseRefName": "main",
+      "baseRefOid": "cee9717491b2914ab60f660ceda34874f1c3e9c3",
+      "headRepository": "LPardue/draft-schinazi-httpbis-wrap-up",
+      "headRefName": "add-lp",
+      "headRefOid": "ac0b34ff52484fc98988c4cde6242ad21b9c5e63",
+      "closedAt": "2024-10-16T01:10:51Z",
+      "mergedAt": "2024-10-16T01:10:51Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "d65863ee0c37a9bd3d0a07259ebd0ef091d5ef4e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMLlhCM6NUfsm",
+          "commit": {
+            "abbreviatedOid": "ac0b34f"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-16T01:09:32Z",
+          "updatedAt": "2024-10-16T01:09:32Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOMLlhCM5-wWMf",
+      "title": "Expand the introduction to talk about a wider range of problems",
+      "url": "https://github.com/DavidSchinazi/draft-schinazi-httpbis-wrap-up/pull/2",
+      "state": "MERGED",
+      "author": "LPardue",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We discussed on the list and elsewhere a borader set of cases where\r\nsomething like WRAP_UP could be useful. The specifics are still in flux.\r\nThe were some thoughts on other capsule types we could define, or we may\r\ndecide to punt on that work entirely.\r\n\r\nHowever, I thought it might be useful to put into prose (my recollection)\r\nof the discussion of the problem space.\r\n\r\nI left it as a \"read between the lines\" thing, but I have use cases where\r\nwrapping HTTP streams in a capsule protocol can help address operational\r\nissues within a system. I'm hoping moving away from CONNECT proxy specific\r\nlanguage can help folks realise there's other applicability.\r\n\r\nThis is wall of text. We might decide that cherry-picking pieces out\r\nis the best thing for now.\r\n",
+      "createdAt": "2024-10-16T01:54:48Z",
+      "updatedAt": "2024-10-16T17:48:55Z",
+      "baseRepository": "DavidSchinazi/draft-schinazi-httpbis-wrap-up",
+      "baseRefName": "main",
+      "baseRefOid": "d65863ee0c37a9bd3d0a07259ebd0ef091d5ef4e",
+      "headRepository": "LPardue/draft-schinazi-httpbis-wrap-up",
+      "headRefName": "rewrite-intro-to-make-more-generic",
+      "headRefOid": "3ac2bcd3bd42ef392507887ef4b624be3afbf593",
+      "closedAt": "2024-10-16T17:48:55Z",
+      "mergedAt": "2024-10-16T17:48:55Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "4e4385bf3f7884fb49640f1604ceb52b0ec63870"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMLlhCM6NdKmp",
+          "commit": {
+            "abbreviatedOid": "4c45d64"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-16T17:42:28Z",
+          "updatedAt": "2024-10-16T17:47:26Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\r\n{{H1}}, {{H2}} and {{H3}} all have the notion of persistent connections, where a\r\n```",
+              "createdAt": "2024-10-16T17:42:28Z",
+              "updatedAt": "2024-10-16T17:47:26Z"
+            },
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\na client or server may wish to terminate the connection gracefully.\r\n```",
+              "createdAt": "2024-10-16T17:42:39Z",
+              "updatedAt": "2024-10-16T17:47:26Z"
+            },
+            {
+              "originalPosition": 50,
+              "body": "```suggestion\r\nthan the grace period, they are abruptly terminated when the the transport layer\r\n```",
+              "createdAt": "2024-10-16T17:43:26Z",
+              "updatedAt": "2024-10-16T17:47:26Z"
+            },
+            {
+              "originalPosition": 89,
+              "body": "```suggestion\r\nLong-lived requests pose a problem for maintenance, especially for HTTP/2 and\r\n```",
+              "createdAt": "2024-10-16T17:44:22Z",
+              "updatedAt": "2024-10-16T17:47:26Z"
+            },
+            {
+              "originalPosition": 97,
+              "body": "```suggestion\r\nseparate control and data frames. The Close frame ({{Section 5.5.1 of ?WEBSOCKET=RFC6455}})\r\n```",
+              "createdAt": "2024-10-16T17:45:00Z",
+              "updatedAt": "2024-10-16T17:47:26Z"
+            },
+            {
+              "originalPosition": 107,
+              "body": "```suggestion\r\nsignal an intent to terminate the request. For example, see CONNECT ({{Section\r\n```",
+              "createdAt": "2024-10-16T17:46:07Z",
+              "updatedAt": "2024-10-16T17:47:26Z"
+            },
+            {
+              "originalPosition": 108,
+              "body": "```suggestion\r\n9.3.6 of HTTP}}) or connect-udp ({?CONNECT-UDP=RFC9298}}). In these models,\r\n```",
+              "createdAt": "2024-10-16T17:46:17Z",
+              "updatedAt": "2024-10-16T17:47:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMLlhCM6NdN1q",
+          "commit": {
+            "abbreviatedOid": "3ac2bcd"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-16T17:48:18Z",
+          "updatedAt": "2024-10-16T17:48:18Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOMLlhCM5-3lIJ",
+      "title": "Punt capsule error handling to 9297",
+      "url": "https://github.com/DavidSchinazi/draft-schinazi-httpbis-wrap-up/pull/4",
+      "state": "MERGED",
+      "author": "DavidSchinazi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #3 ",
+      "createdAt": "2024-10-16T17:57:04Z",
+      "updatedAt": "2024-10-16T17:57:40Z",
+      "baseRepository": "DavidSchinazi/draft-schinazi-httpbis-wrap-up",
+      "baseRefName": "main",
+      "baseRefOid": "c2e17544387f03f54922a845ded8de5c65983abb",
+      "headRepository": "DavidSchinazi/draft-schinazi-httpbis-wrap-up",
+      "headRefName": "parse_error",
+      "headRefOid": "540ef8fd7f1c5ad881f579f136e8083b8375c8ca",
+      "closedAt": "2024-10-16T17:57:37Z",
+      "mergedAt": "2024-10-16T17:57:37Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "1b72c98ac41ad095963975365b64c8688b0f552d"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOMLlhCM5-5HEy",
+      "title": "Fix CI",
+      "url": "https://github.com/DavidSchinazi/draft-schinazi-httpbis-wrap-up/pull/5",
+      "state": "MERGED",
+      "author": "martinthomson",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "You had a few things out of date, including a busted publish.yml, so I updated them for you.\r\n\r\n(You get the benefit of some of the newer -- untested -- changes to the Makefile.  I hope that isn't a problem.)",
+      "createdAt": "2024-10-16T21:56:23Z",
+      "updatedAt": "2024-10-16T22:01:11Z",
+      "baseRepository": "DavidSchinazi/draft-schinazi-httpbis-wrap-up",
+      "baseRefName": "main",
+      "baseRefOid": "c5cfd36520a65215b55b01480f2eea75d154e70b",
+      "headRepository": "martinthomson/draft-schinazi-httpbis-wrap-up",
+      "headRefName": "fix-ci",
+      "headRefOid": "7aa25b2af743e1aac8c2db3d6a7f4cd6197cd3f8",
+      "closedAt": "2024-10-16T22:01:11Z",
+      "mergedAt": "2024-10-16T22:01:11Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "df7cfd8a63edfb0e6af053d0a3d77f8218b5ebb7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMLlhCM6NfLwM",
+          "commit": {
+            "abbreviatedOid": "7aa25b2"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "Ah I didn't think to pull in newer actions. Thanks!",
+          "createdAt": "2024-10-16T22:01:06Z",
+          "updatedAt": "2024-10-16T22:01:06Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
 }
