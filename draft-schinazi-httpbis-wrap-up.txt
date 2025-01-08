@@ -5,8 +5,8 @@
 HTTPBIS                                                      D. Schinazi
 Internet-Draft                                                Google LLC
 Intended status: Standards Track                               L. Pardue
-Expires: 20 April 2025                                        Cloudflare
-                                                         17 October 2024
+Expires: 12 July 2025                                         Cloudflare
+                                                          8 January 2025
 
 
                         The HTTP Wrap Up Capsule
@@ -60,11 +60,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 April 2025.
+   This Internet-Draft will expire on 12 July 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -358,9 +358,9 @@ Table of Contents
    [WEBTRANSPORT]
               Frindell, A., Kinnear, E., and V. Vasiliev, "WebTransport
               over HTTP/3", Work in Progress, Internet-Draft, draft-
-              ietf-webtrans-http3-10, 25 August 2024,
+              ietf-webtrans-http3-11, 21 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-
-              webtrans-http3-10>.
+              webtrans-http3-11>.
 
 Acknowledgments
 
